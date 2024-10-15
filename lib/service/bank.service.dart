@@ -3,32 +3,20 @@ import 'package:flutter_bank/classes/transaction.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
-class TransactionService implements ApiService<Transaction> {
+class TransactionService {
   final String apiUrl =
-      "https://jsonplaceholder.typicode.com/posts"; // Exemplo de URL
+      "http://localhost:3000/transactions"; // URL do json-server
 
-  @override
   Future<List<Transaction>> fetchAll() async {
     final response = await http.get(Uri.parse(apiUrl));
     if (response.statusCode == 200) {
       List jsonResponse = json.decode(response.body);
       return jsonResponse.map((data) => Transaction.fromJson(data)).toList();
     } else {
-      throw Exception('Failed to load transactions');
+      throw Exception('Erro ao carregar transações');
     }
   }
 
-  @override
-  Future<Transaction> fetchById(int id) async {
-    final response = await http.get(Uri.parse('$apiUrl/$id'));
-    if (response.statusCode == 200) {
-      return Transaction.fromJson(json.decode(response.body));
-    } else {
-      throw Exception('Failed to load transaction');
-    }
-  }
-
-  @override
   Future<Transaction> create(Transaction transaction) async {
     final response = await http.post(
       Uri.parse(apiUrl),
@@ -38,11 +26,17 @@ class TransactionService implements ApiService<Transaction> {
     if (response.statusCode == 201) {
       return Transaction.fromJson(json.decode(response.body));
     } else {
-      throw Exception('Failed to create transaction');
+      throw Exception('Erro ao criar transação');
     }
   }
 
-  @override
+  Future<void> delete(int id) async {
+    final response = await http.delete(Uri.parse('$apiUrl/$id'));
+    if (response.statusCode != 200) {
+      throw Exception('Erro ao deletar transação');
+    }
+  }
+
   Future<Transaction> update(int id, Transaction transaction) async {
     final response = await http.put(
       Uri.parse('$apiUrl/$id'),
@@ -52,15 +46,7 @@ class TransactionService implements ApiService<Transaction> {
     if (response.statusCode == 200) {
       return Transaction.fromJson(json.decode(response.body));
     } else {
-      throw Exception('Failed to update transaction');
-    }
-  }
-
-  @override
-  Future<void> delete(int id) async {
-    final response = await http.delete(Uri.parse('$apiUrl/$id'));
-    if (response.statusCode != 200) {
-      throw Exception('Failed to delete transaction');
+      throw Exception('Erro ao atualizar transação');
     }
   }
 }
