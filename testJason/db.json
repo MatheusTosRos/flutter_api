@@ -1,7 +1,8 @@
 {
     "transactions": [
       { "id": 1, "description": "Depósito", "amount": 500.0 },
-      { "id": 2, "description": "Pagamento de Conta", "amount": -150.0 }
+      { "id": 2, "description": "Pagamento de Conta", "amount": -150.0 },
+      { "id": 3, "description": "Depósito", "amount": 50524.94}
     ]
   }
   
