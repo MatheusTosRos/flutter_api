@@ -1,0 +1,7 @@
+{
+    "transactions": [
+      { "id": 1, "description": "Depósito", "amount": 500.0 },
+      { "id": 2, "description": "Pagamento de Conta", "amount": -150.0 }
+    ]
+  }
+  
